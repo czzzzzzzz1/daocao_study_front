@@ -41,7 +41,7 @@
                 </div>
             <!-- 登录按钮 -->
             <el-form-item >
-                <el-button style="width:100%" type="primary">登录</el-button>
+                <el-button style="width:100%" type="primary" click="handleLogin">登录</el-button>
             </el-form-item>
             </el-form>
             
@@ -55,8 +55,13 @@
     // 申明表单变量
     const loginForm = ref({
         account:undefined,
-        password:undefined
+        password:undefined,
+        rememberme:undefined
     })
+    // 申明方法
+    function handleLogin(){
+        console.log("点击登录")
+    };
 </script>
 
 <style lang="scss" scoped>

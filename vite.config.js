@@ -1,9 +1,9 @@
-// import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-import path from "path"
+// import path from "path"
 
 // 导入element Plus
 import AutoImport from 'unplugin-auto-import/vite'
@@ -21,23 +21,18 @@ export default defineConfig({
         // 自动导入element-plus
         ElementPlusResolver(),
       ],
-
-      // dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
     }),
     Components({
       resolvers: [
         // 自动注册element-plus
         ElementPlusResolver(),
-       
       ],
-
-      // dts: path.resolve(pathSrc, 'components.d.ts'),
     }),
   ],
   resolve: {
     alias: {
-      // '@': fileURLToPath(new URL('./src', import.meta.url))
-      "@":path.resolve(__dirname,"./src")
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+      // "@":path.resolve(__dirname,"./src")
     }
   }
 })
