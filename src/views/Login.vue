@@ -41,7 +41,7 @@
                 </div>
             <!-- 登录按钮 -->
             <el-form-item >
-                <el-button style="width:100%" type="primary" click="handleLogin">登录</el-button>
+                <el-button style="width:100%" type="primary" @click="handleLogin">登录</el-button>
             </el-form-item>
             </el-form>
             
@@ -51,6 +51,8 @@
 
 <script setup>
     // 导入ref
+    import { login } from '@/api/auth';
+import { setToken } from '@/utils/token';
     import {ref} from 'vue'
     // 申明表单变量
     const loginForm = ref({
@@ -60,7 +62,16 @@
     })
     // 申明方法
     function handleLogin(){
-        console.log("点击登录")
+        // 调用login方法
+        login(loginForm.value).then((res)=>{
+            console.log("登录====>",res)
+            // 判断是否成功
+            if(res.data.code == 200) {
+                // 将token存入sessionStroge中
+                setToken("daoCaoToken",res.data.token);
+                //TODO 查询用户的权限和菜单，设置页面路由实现动态路由
+            }
+        })
     };
 </script>
 

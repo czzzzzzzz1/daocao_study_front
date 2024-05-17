@@ -3,9 +3,8 @@
 import router from '@/router';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import { getToken } from './token';
 
-
-let token =''
 //创建axios
 const request =axios.create({
     baseURL:'http://localhost:8080/', // 跟请求地址
@@ -21,8 +20,8 @@ request.interceptors.request.use((config)=>{
 
     // 在请求头添加token,判断是否需要发送token
     // TODO 后续token应在pinia中获取
-    if(token){
-        config.headers['Daocao-Authorization'] = token;
+    if(getToken("daoCaoToken")){
+        config.headers['Daocao-Authorization'] = getToken("daoCaoToken");
     }
     return config;
     },
@@ -34,7 +33,7 @@ request.interceptors.request.use((config)=>{
 )
 
 // 配置响应拦截器
-request.interceptors.response((response)=>{
+request.interceptors.response.use((response)=>{
     // 判断响应码，后端返回的数据 code,data,msg
     let {msg,code} =response.data
     console.log("code====>",code,"msg====>",msg);
