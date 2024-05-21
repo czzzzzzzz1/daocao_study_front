@@ -50,10 +50,17 @@
 </template>
 
 <script setup>
-    // 导入ref
+
     import { login } from '@/api/auth';
-import { setToken } from '@/utils/token';
+    import { searchSelfRouter } from '@/api/user';
+    import { useMenuStore } from '@/stores/menu';
+    import { setToken } from '@/utils/token';
     import {ref} from 'vue'
+    import { useRouter } from 'vue-router';
+    
+    const router = useRouter();
+    //构建store
+    const menuStore = useMenuStore();
     // 申明表单变量
     const loginForm = ref({
         account:undefined,
@@ -65,11 +72,23 @@ import { setToken } from '@/utils/token';
         // 调用login方法
         login(loginForm.value).then((res)=>{
             console.log("登录====>",res)
-            // 判断是否成功
+            // 判断是否成功 
             if(res.data.code == 200) {
                 // 将token存入sessionStroge中
                 setToken("daoCaoToken",res.data.token);
                 //TODO 查询用户的权限和菜单，设置页面路由实现动态路由
+                searchSelfRouter().then((res) =>{
+                    console.log("res---->",res)
+                    if(res.data.code == 200){
+                        //将路由信息存储到pinia中
+                        menuStore.setMenuList(res.data.data)
+                        //跳转页面 /index
+                        //1.渲染动态路由【在路由守卫上渲染】
+                        //2.开发项目主页面 【左侧导航，头部，主题部分】
+                        router.push("/index")
+                        
+                    }
+                })
             }
         })
     };

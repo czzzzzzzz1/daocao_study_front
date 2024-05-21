@@ -1,5 +1,6 @@
 import { createRouter,createWebHistory }from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '@/views/Login.vue'
+import Layout from '@/Layout/index.vue'
 // 配置路由规则
 const constRouter=[
     // 重定向
@@ -11,6 +12,17 @@ const constRouter=[
         path:'/login',
         name: 'login',
         component: Login
+    },
+    {
+        path:'/',
+        name: 'index',
+        component: Layout,
+        children:[
+            {
+                path:'/index',
+                component:()=> import('@/views/index.vue')
+            }
+        ]
     },
 ]
 // 创建路由
